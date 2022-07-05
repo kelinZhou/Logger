@@ -1,7 +1,7 @@
 package com.kelin.loggerdemo
 
 import android.app.Application
-import com.kelin.logger.Logger
+import com.kelin.logger.LogOption
 
 /**
  * **描述:** 应用程序
@@ -16,6 +16,6 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        Logger.init(BuildConfig.DEVELOPER_NAME, false)
+        LogOption.init(BuildConfig.DEVELOPER_NAME, false)
     }
 }

@@ -10,9 +10,30 @@ package com.kelin.logger
  * **版本:** v 1.0.0
  */
 object Logger {
-    private var sCurDeveloperName: String = ""
-    private var sIsDebug = true
-    private var sIsFilterOtherDeveloperLog = true
+
+    /**
+     * 获取某个开发者的日志。
+     */
+    fun developer(developer: Developer, tag: String? = null, showThread: Boolean = false): Log? {
+        return if (LogOption.sIsDebug && (developer.devName == LogOption.sCurDeveloperName || !LogOption.sIsFilterOtherDeveloperLog)) {
+            UserLogger(tag, developer, showThread)
+        } else {
+            null
+        }
+    }
+
+    /**
+     * 获取系统日志。
+     */
+    fun system(tag: String? = null, showThread: Boolean = false): Log? {
+        return if (LogOption.sIsDebug) SystemLogger(tag, showThread) else null
+    }
+}
+
+object LogOption {
+    internal var sCurDeveloperName: String = ""
+    internal var sIsDebug = true
+    internal var sIsFilterOtherDeveloperLog = true
 
     /**
      * 初始化函数。需要在Application启动的时候进行初始化。
@@ -29,23 +50,5 @@ object Logger {
         sCurDeveloperName = developerName
         sIsDebug = isDebugMode
         sIsFilterOtherDeveloperLog = filterOtherDeveloperLog
-    }
-
-    /**
-     * 获取某个开发者的日志。
-     */
-    fun developer(developer: Developer, tag: String? = null, showThread: Boolean = false): Log? {
-        return if (sIsDebug && (developer.devName == sCurDeveloperName || !sIsFilterOtherDeveloperLog)) {
-            UserLogger(tag, developer, showThread)
-        } else {
-            null
-        }
-    }
-
-    /**
-     * 获取系统日志。
-     */
-    fun system(tag: String? = null, showThread: Boolean = false): Log? {
-        return if (sIsDebug) SystemLogger(tag, showThread) else null
     }
 }
