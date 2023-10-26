@@ -11,12 +11,20 @@ package com.kelin.logger
  */
 object Logger {
 
+    private var userLogger: UserLogger? = null
+    private var systemLogger: SystemLogger? = null
+
     /**
      * 获取某个开发者的日志。
      */
     fun developer(developer: Developer, tag: String? = null, showThread: Boolean = false): Log? {
         return if (LogOption.sIsDebug && (developer.devName == LogOption.sCurDeveloperName || !LogOption.sIsFilterOtherDeveloperLog)) {
-            UserLogger(tag, developer, showThread)
+            if (userLogger == null) {
+                userLogger = UserLogger(tag, developer, showThread)
+            } else {
+                userLogger?.update(tag, developer, showThread)
+            }
+            userLogger
         } else {
             null
         }
@@ -26,7 +34,16 @@ object Logger {
      * 获取系统日志。
      */
     fun system(tag: String? = null, showThread: Boolean = false): Log? {
-        return if (LogOption.sIsDebug) SystemLogger(tag, showThread) else null
+        return if (LogOption.sIsDebug) {
+            if (systemLogger == null) {
+                systemLogger = SystemLogger(tag, showThread)
+            } else {
+                systemLogger?.update(tag, showThread)
+            }
+            systemLogger
+        } else {
+            null
+        }
     }
 }
 

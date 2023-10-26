@@ -9,7 +9,10 @@ package com.kelin.logger
  *
  * **版本:** v 1.0.0
  */
-class UserLogger(private val tag: String?, private val developer: Developer, override val showThread: Boolean) : Log {
+internal class UserLogger(private var tag: String?, private var developer: Developer, private var showThreadInfo: Boolean) : Log {
+
+    override val showThread: Boolean
+        get() = showThreadInfo
 
     override val realTag: String
         get() = if (tag.isNullOrBlank()) {
@@ -17,4 +20,10 @@ class UserLogger(private val tag: String?, private val developer: Developer, ove
         } else {
             "$tag   [${developer.tag}]"
         }
+
+    internal fun update(tag: String?, developer: Developer, showThreadInfo: Boolean) {
+        this.tag = tag
+        this.developer = developer
+        this.showThreadInfo = showThreadInfo
+    }
 }

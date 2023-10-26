@@ -9,11 +9,20 @@ package com.kelin.logger
  *
  * **版本:** v 1.0.0
  */
-class SystemLogger(private val tag: String?, override val showThread: Boolean) : Log {
+internal class SystemLogger(private var tag: String?, private var showThreadInfo: Boolean) : Log {
+
+    override val showThread: Boolean
+        get() = showThreadInfo
+
     override val realTag: String
         get() = if (tag.isNullOrBlank()) {
             "[+@System@]"
         } else {
             "$tag   [+@System@]"
         }
+
+    internal fun update(tag: String?, showThreadInfo: Boolean) {
+        this.tag = tag
+        this.showThreadInfo = showThreadInfo
+    }
 }
