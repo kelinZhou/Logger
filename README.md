@@ -3,36 +3,38 @@
 Logger组件，可以区分不同的开发者，使用简单。
 
 ### Step 1. Add the JitPack repository to your build file
-```gradle
+```groovy
 dependencyResolutionManagement {
-  repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-  repositories {
-    mavenCentral()
-    maven { url 'https://jitpack.io' }
-  }
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+    }
 }
 ```
 
 ### Step 2. Add the dependency
+```groovy
 dependencies {
-        implementation 'com.github.kelinZhou:Logger:Tag'
+    implementation 'com.github.kelinZhou:Logger:Tag'
 }
+```
 
 ### Step 3. Get the developer name in gradle
-```gradle
-android{
-  //... some codes.
-  buildTypes{
-    release{
-      //... some codes.
-      buildConfigField 'String', "DEVELOPER_NAME", "\"${System.properties['user.name']}\""  // Get the name of computer.
+```groovy
+android {
+    //... some codes.
+    buildTypes {
+        release {
+            //... some codes.
+            buildConfigField 'String', "DEVELOPER_NAME", "\"${System.properties['user.name']}\""  // Get the name of computer.
+        }
+        
+        debug{
+            //... some codes.
+            buildConfigField 'String', "DEVELOPER_NAME", "\"${System.properties['user.name']}\""   // Get the name of computer.
+        }
     }
-
-    debug{
-      //... some codes.
-      buildConfigField 'String', "DEVELOPER_NAME", "\"${System.properties['user.name']}\""   // Get the name of computer.
-    }
-  }
 }
 ```
 
